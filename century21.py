@@ -24,10 +24,27 @@ text_only_price = text_price.replace('\n', '').replace(' ', '')
 
 text_address = all[0].find_all('span', {'class': 'propAddressCollapse'})[1].text
 
-#extract beds
+# extract beds
 
 text_beds = all[1].find_all('span', {'class': 'infoBed'})[0].find('b').text
 
+# Special elements
+
+special = all[2].find_all('div', {'class': 'columnGroup'})
+special_element = special[0].text
+for column in special:
+    if 'Age' in column.text:
+        column = column.find('span', {'class': 'featureName'}).text
+        print(column)
+
+if 'Age' in special_element:
+    print('True')
+else:
+    print('False')
+if 'Age' in special[2].text:
+    print('True')
+else:
+    print('False')
 # making lists
 
 list_prices = [
@@ -47,3 +64,18 @@ for item in all:
         list_beds.append(text_bed)
     except:
         list_beds.append(None)
+
+
+def interation(item, list_ages):
+    for column in item.find_all('div', {'class': 'columnGroup'}):
+        if 'Age' in column.text:
+            text = column.find('span', {'class': 'featureName'}).text
+            list_ages.append(text)
+            return
+
+    list_ages.append(None)
+
+
+list_ages = []
+for item in all:
+    interation(item, list_ages)
