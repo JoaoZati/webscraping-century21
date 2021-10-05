@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import pandas as pd
 
 url = 'https://pythonizing.github.io/data/real-estate/rock-springs-wy/LCWYROCKSPRINGS/'
 request = requests.get(url)
@@ -79,3 +80,17 @@ def interation(item, list_ages):
 list_ages = []
 for item in all:
     interation(item, list_ages)
+
+list_index = [f'Address {i}' for i in range(10)]
+list_columns = ['Adress', 'price']
+dict_csv = {
+    'price': list_prices,
+    'address': list_address,
+    'beds': list_beds,
+    'ages': list_ages,
+}
+
+df_scrapy = pd.DataFrame(dict_csv)
+df_scrapy.index = list_index
+
+df_scrapy.to_csv('output.csv')
